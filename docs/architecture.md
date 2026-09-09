@@ -9,94 +9,84 @@ but they solve different problems.
 
 `tech.scad` is the broad catalog and knowledge layer.
 
-It answers questions such as:
-
-- Which reusable libraries exist?
-- Which tooling is available?
-- Which template should a new project start from?
-- Which user CAD projects exist?
-- Where does the documentation for a particular project or library live?
-
-It should be able to grow with the number of libraries and user projects
-without making those repositories integration dependencies.
+It covers both generations of project infrastructure, reusable libraries and
+the actual user CAD projects.
 
 ### meta.scad-projects
 
 `meta.scad-projects` is the engineering/integration layer for maintaining the
-SCAD project ecosystem itself.
+**current** SCAD project ecosystem itself.
 
 It focuses on a deliberately small set that can prove the shared architecture:
+runtime, runtime verification, project tooling, reference template and
+representative library integration.
 
-- runtime;
-- runtime verification;
-- project tooling;
-- reference template;
-- one or more representative libraries.
+## Project-infrastructure generations
 
-It answers different questions:
-
-- Do the core versions work together?
-- Is the project tooling compatible with the runtime?
-- Does the reference template exercise the intended workflow?
-- Can a representative library be consumed correctly?
-- What versions/commits are pinned by the integration set?
-
-## Relationship
+The wider catalog includes an older and a current infrastructure generation.
 
 ```mermaid
 flowchart TD
     TECH["tech.scad<br/>complete catalog / knowledge"]
 
-    META["meta.scad-projects<br/>core ecosystem engineering"]
+    subgraph CLASSIC["Classic CAD project infrastructure"]
+        OLDPROJECT["existing CAD project"]
+        ACTIONS["brainboxemb.github.actions"]
+        OLDPROJECT -->|"shared OpenSCAD workflow"| ACTIONS
+    end
 
-    subgraph TOOLING["Tooling / templates"]
-        RUNTIME["docker.scad-toolchain"]
-        TEST["docker.scad-toolchain.test"]
+    subgraph CURRENT["Current SCAD project infrastructure"]
+        NEWPROJECT["new SCAD project"]
         TOOL["tool.scad-project"]
-        TEMPLATE["template.scad-project"]
+        RUNTIME["docker.scad-toolchain"]
+        NEWPROJECT -->|"project tooling"| TOOL
+        TOOL -->|"runs on"| RUNTIME
     end
 
-    subgraph LIBS["Reusable libraries"]
-        CLAMPS["lib.scad.clamps"]
-        HUB75["lib.scad.hub75"]
-        MORELIBS["future lib.scad.*"]
-    end
+    META["meta.scad-projects<br/>current ecosystem engineering"]
 
-    subgraph PROJECTS["User projects"]
-        FRAME["HUB75 display frame"]
-        CASE["HUB75 display case"]
-        OTHER["other CAD projects"]
-    end
-
-    TECH -.->|"catalogs"| META
-    TECH -.->|"catalogs"| RUNTIME
-    TECH -.->|"catalogs"| TEST
+    TECH -.->|"catalogs"| OLDPROJECT
+    TECH -.->|"catalogs"| ACTIONS
+    TECH -.->|"catalogs"| NEWPROJECT
     TECH -.->|"catalogs"| TOOL
-    TECH -.->|"catalogs"| TEMPLATE
-    TECH -.->|"catalogs"| CLAMPS
-    TECH -.->|"catalogs"| HUB75
-    TECH -.->|"catalogs"| MORELIBS
-    TECH -.->|"catalogs"| FRAME
-    TECH -.->|"catalogs"| CASE
-    TECH -.->|"catalogs"| OTHER
+    TECH -.->|"catalogs"| RUNTIME
+    TECH -.->|"catalogs"| META
 
-    META -.->|"integrates / observes core set"| RUNTIME
-    META -.->|"integrates / observes core set"| TEST
-    META -.->|"integrates / observes core set"| TOOL
-    META -.->|"integrates / observes core set"| TEMPLATE
-    META -.->|"representative library"| CLAMPS
-
-    TEMPLATE -->|"build tooling"| TOOL
-    TOOL -->|"runs on"| RUNTIME
-    TEST -.->|"verifies"| RUNTIME
+    META -.->|"integrates / observes current core"| TOOL
+    META -.->|"integrates / observes current core"| RUNTIME
 ```
 
-Dotted `tech.scad` relationships mean **catalogs/documents**, not runtime
-dependencies.
+`brainboxemb.github.actions` remains part of the technical landscape because
+existing CAD projects use it. It is not part of the new project architecture
+that `meta.scad-projects` is intended to maintain.
+
+## Engine versus infrastructure
+
+These are deliberately separate classifications.
+
+```text
+engine
+    OpenSCAD
+    PythonSCAD
+    both
+
+project infrastructure
+    classic standalone
+    classic shared-actions
+    current tool.scad-project
+```
+
+A repository name is not sufficient evidence for an engine. `tech.scad`
+should inspect repository contents before classifying a CAD project.
+
+For OpenSCAD, actual `.scad` source provides direct evidence. For PythonSCAD,
+use PythonSCAD-specific source/configuration/build evidence; a generic Python
+script alone does not establish PythonSCAD use.
 
 ## Dependency rule
 
-A normal project must depend directly on the tooling and libraries it needs.
+A normal current project must depend directly on the tooling and libraries it
+needs.
 
 ```text
 project
@@ -110,16 +100,19 @@ project
         └── libraries
 ```
 
-`tech.scad` therefore starts without a tree of Git submodules. It can discover
-or query repositories later when automation is added, but should not become a
-package manager or mandatory parent repository unless there is a concrete need.
+Classic projects may continue to call `brainboxemb.github.actions` directly.
+
+`tech.scad` is a catalog layer and should not become a package manager or a
+mandatory parent dependency.
 
 ## Source-of-truth boundaries
 
 `tech.scad` owns:
 
 - the curated list of repositories in the wider SCAD landscape;
-- their broad category and role;
+- broad category and role;
+- detected CAD engine classification;
+- project-infrastructure generation/provider classification;
 - cross-navigation and high-level knowledge documentation.
 
 Individual repositories own:
@@ -133,9 +126,7 @@ Individual repositories own:
 
 `meta.scad-projects` owns:
 
-- the controlled integration set;
-- ecosystem architecture for the development stack;
+- the controlled current integration set;
+- architecture for the current development stack;
 - cross-repository integration rules;
 - compatibility/integration evidence.
-
-This separation avoids maintaining the same detailed facts in multiple places.
