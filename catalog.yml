@@ -1,0 +1,76 @@
+schema_version: 1
+
+# Curated inventory of repositories that belong to the wider SCAD landscape.
+# Detailed implementation and live project status remain owned by each
+# individual repository.
+
+repositories:
+  - name: docker.scad-toolchain
+    repository: brainboxemb/docker.scad-toolchain
+    category: tooling
+    role: Shared SCAD runtime and build container.
+
+  - name: docker.scad-toolchain.test
+    repository: brainboxemb/docker.scad-toolchain.test
+    category: tooling
+    role: Consumer-style verification of the SCAD runtime/toolchain.
+
+  - name: tool.scad-project
+    repository: brainboxemb/tool.scad-project
+    category: tooling
+    role: Reusable SCAD project CLI, policy and GitHub Actions workflows.
+
+  - name: template.scad-project
+    repository: brainboxemb/template.scad-project
+    category: template
+    role: Reference consumer and starting point for structured SCAD projects.
+
+  - name: meta.scad-projects
+    repository: brainboxemb/meta.scad-projects
+    category: ecosystem-engineering
+    role: Integration and maintenance view of the core SCAD development ecosystem.
+
+  - name: lib.scad.clamps
+    repository: brainboxemb/lib.scad.clamps
+    category: library
+    role: Reusable parametric clamp geometry and library API.
+
+  - name: lib.scad.hub75
+    repository: brainboxemb/lib.scad.hub75
+    category: library
+    role: Reusable HUB75 LED-panel reference geometry and mechanical API.
+
+  - name: 2026-003-01.cad.garden-tool-cart
+    repository: brainboxemb/2026-003-01.cad.garden-tool-cart
+    category: project
+    role: Modular storage design for a mobile garden tool rack.
+
+  - name: 2026-004-01.cad.metabo-tsu-slot-insert
+    repository: brainboxemb/2026-004-01.cad.metabo-tsu-slot-insert
+    category: project
+    role: Insert for locating mounting bolts in a Metabo TSU table-saw stand.
+
+  - name: 2026-005-01.cad.aluminium-profile-mft
+    repository: brainboxemb/2026-005-01.cad.aluminium-profile-mft
+    category: project
+    role: Aluminium-extrusion MFT-style multifunction workbench.
+
+  - name: 2026-006-01.cad.HUB75-display-frame
+    repository: brainboxemb/2026-006-01.cad.HUB75-display-frame
+    category: project
+    role: Mechanical frame for HUB75 LED matrix panels.
+
+  - name: 2026-006-02.cad.HUB75-display-case
+    repository: brainboxemb/2026-006-02.cad.HUB75-display-case
+    category: project
+    role: Wooden enclosure and carry structure for a HUB75 LED display.
+
+  - name: 2026-007-01.cad.tool-board
+    repository: brainboxemb/2026-007-01.cad.tool-board
+    category: project
+    role: Parametric garage and workshop tool-board layout model.
+
+  - name: 2026-008-01.cad.bosch-table
+    repository: brainboxemb/2026-008-01.cad.bosch-table
+    category: project
+    role: Mobile workshop stand for a Bosch GTS 10 XC table saw.
