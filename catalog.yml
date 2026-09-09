@@ -84,6 +84,16 @@ repositories:
       generation: current
       provider: tool.scad-project
 
+  - name: 2026-009-01.cad.HUB75-display-frame
+    repository: brainboxemb/2026-009-01.cad.HUB75-display-frame
+    category: project
+    role: Structured restart of the five-panel HUB75 LED display frame using reusable panel geometry and current SCAD project tooling.
+    engines:
+      - openscad
+    project_infrastructure:
+      generation: current
+      provider: tool.scad-project
+
   - name: 2026-003-01.cad.garden-tool-cart
     repository: brainboxemb/2026-003-01.cad.garden-tool-cart
     category: project
