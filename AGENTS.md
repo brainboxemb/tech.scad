@@ -1,4 +1,6 @@
-# CHATGPT.md
+# Repository agent guidance
+
+Persistent guidance for automated coding agents working in `tech.scad`.
 
 ## Repository purpose
 
@@ -11,9 +13,9 @@ Its scope is intentionally broader than `meta.scad-projects`.
 
 Do not turn `tech.scad` into a second integration repository.
 
-`meta.scad-projects` exists to maintain and verify a small controlled set for
-the **current** SCAD project infrastructure: runtime, runtime tests, project
-tooling, reference template and representative library integration.
+`meta.scad-projects` maintains and verifies a small controlled set for the
+current SCAD project infrastructure: runtime, runtime tests, project tooling,
+reference template and representative library integration.
 
 `tech.scad` also includes classic infrastructure and all relevant user
 projects.
@@ -88,11 +90,11 @@ specific `lib.scad.*` libraries. Classic projects may consume
 Do not introduce a requirement for projects to checkout or include
 `tech.scad`.
 
-## Initial automation rule
+## Automation rule
 
-Keep the first implementation deliberately simple and curated. A future
-status/dashboard should read `catalog.yml` and inspect/query the owning
-repositories rather than creating hand-maintained status copies.
+Keep the catalog deliberately curated. Status/dashboard automation should read
+`catalog.yml` and inspect/query the owning repositories rather than creating
+hand-maintained copies of changing status data.
 
 ## Documentation style
 
